@@ -11,8 +11,12 @@
   google.setOnLoadCallback(drawChartfromCSV);
 
   function drawChartfromCSV(){
+    // var csv_name = "bitstampUSD_test2"
+    var csv_name = "bitstampUSD_1day"
+
+    var csv_path = "/data/"+csv_name+".csv"
     // grab the CSV
-        $.get("/data/bitstampUSD_test2.csv", function(csvString) {
+        $.get(csv_path, function(csvString) {
         // transform the CSV string into a 2-dimensional array
            var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
         // this new DataTable object holds all the data

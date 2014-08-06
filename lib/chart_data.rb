@@ -2,7 +2,8 @@ PATH = File.expand_path "../../", __FILE__
 
 class ChartData
 
-  def initialize(csv_name)
+  def initialize(csv_name, delta)
+    @delta = 1 # days
     @file = File.read "#{PATH}/data/#{csv_name}.csv"
     @lines = @file.split "\n"
     headers = [:time, :price, :volume]
@@ -25,6 +26,7 @@ class ChartData
 
 
   def aggregate(delta_days=1) # 1 day, or 30 days
+    # TODO: use @delta
     data_aggr = []
     day_last = nil
     @data.each do |dat|
@@ -38,15 +40,16 @@ class ChartData
 
       day_last = day_this
     end
+
     data_aggr
   end
 
-  def volume
-    data = aggregate 1
+  def volume!
+    @data = aggregate 1
   end
 
-  def total # total volume / volume
-    data = aggregate 30
+  def total! # total volume / volume
+    @data = aggregate 30
   end
 
 
@@ -64,12 +67,13 @@ class ChartData
   def to_csv_volume
     out = []
     for dat in @data
-      out << "#{dat[:time]},#{dat[:price]},#{dat[:volume]}"
+      out << "#{dat[:time]},#{dat[:volume]}"
     end
     out.join("\n")
   end
 
   ###
+
 
   protected
 
@@ -79,8 +83,16 @@ class ChartData
 
 end
 
-csv_name = "bitstampUSD_10k"
-chart = ChartData.new csv_name
+
+# usage: ruby lib/chart_data.rb > data/bitstampUSD_1day.csv
+# usage: ruby lib/chart_data.rb 30 > data/bitstampUSD_30days.csv
+
+days = ARGV[0] ? ARGV[0].to_i : 1 # defaults to 1 day
+
+csv_name = "bitstampUSD"
+chart = ChartData.new csv_name, days
 # puts chart.data
-puts chart.volume
+# puts chart.volume
+chart.volume!
+puts chart.to_csv_volume
 # puts chart.to_csv
