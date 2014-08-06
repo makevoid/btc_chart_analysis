@@ -1,0 +1,4 @@
+.sass-cache
+*.sql
+*.sqlite
+data/*.csv
