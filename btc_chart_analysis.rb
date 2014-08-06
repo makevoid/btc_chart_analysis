@@ -8,9 +8,17 @@ class BtcChartAnalysis < Sinatra::Base
   get "/" do
     haml :index
   end
-  
+
   get "/chart" do
     haml :chart
+  end
+
+  get "/total" do
+    haml :total
+  end
+
+  get "/volume" do
+    haml :volume
   end
 end
 

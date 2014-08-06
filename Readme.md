@@ -1,5 +1,19 @@
-# btc_chart_analysis
+# BTC Chart Analysis
 
-Generated with Sinatrize
+Historical Data
+http://api.bitcoincharts.com/v1/csv/
 
-tip: find and replace for [...] for meta tags and other useful needed for publication
+All normalized to USD (get current price)
+
+### Charts
+volume - 24h, 30 gg
+total volume / volume exchange - 24h, 30gg
+
+
+
+
+---
+
+### notes
+
+head -10000 bitstampUSD.csv > bitstampUSD_10k.csv
