@@ -3,7 +3,7 @@ PATH = File.expand_path "../../", __FILE__
 class ChartData
 
   def initialize(csv_name, delta)
-    puts "delta: #{@delta} days\n"
+    #puts "delta: #{@delta} days\n"
 
     @delta = 1 # days
     @file = File.read "#{PATH}/data/#{csv_name}.csv"
@@ -55,7 +55,7 @@ class ChartData
   # csv
 
   def to_csv
-    out = []
+    out = ["time,price,volume"]
     for dat in @data
       out << "#{dat[:time]},#{dat[:price]},#{dat[:volume]}"
     end
@@ -63,7 +63,7 @@ class ChartData
   end
 
   def to_csv_volume
-    out = []
+    out = ["time,volume"]
     for dat in @data
       out << "#{dat[:time]},#{dat[:volume]}"
     end
@@ -85,9 +85,11 @@ end
 # usage: ruby lib/chart_data.rb > data/bitstampUSD_1day.csv
 # usage: ruby lib/chart_data.rb 30 > data/bitstampUSD_30days.csv
 
-days = ARGV[0] ? ARGV[0].to_i : 1 # defaults to 1 day
 
-csv_name = "bitstampUSD"
+name = ARGV[0] ? ARGV[0] : "bitstampUSD"
+days = ARGV[1] ? ARGV[1].to_i : 1 # defaults to 1 day
+
+csv_name = name
 chart = ChartData.new csv_name, days
 # puts chart.data
 # puts chart.volume
