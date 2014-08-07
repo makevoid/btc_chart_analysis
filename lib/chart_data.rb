@@ -3,6 +3,8 @@ PATH = File.expand_path "../../", __FILE__
 class ChartData
 
   def initialize(csv_name, delta)
+    puts "delta: #{@delta} days\n"
+
     @delta = 1 # days
     @file = File.read "#{PATH}/data/#{csv_name}.csv"
     @lines = @file.split "\n"
@@ -45,16 +47,12 @@ class ChartData
   end
 
   def volume!
-    @data = aggregate 1
+    @data = aggregate @delta
   end
 
-  def total! # total volume / volume
-    @data = aggregate 30
-  end
 
 
   # csv
-
 
   def to_csv
     out = []

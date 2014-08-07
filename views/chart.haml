@@ -15,24 +15,27 @@
     var csv_name = "bitstampUSD_1day"
 
     var csv_path = "/data/"+csv_name+".csv"
-    // grab the CSV
-        $.get(csv_path, function(csvString) {
-        // transform the CSV string into a 2-dimensional array
-           var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
-        // this new DataTable object holds all the data
-           var data = new google.visualization.arrayToDataTable(arrayData);
-        // this view can select a subset of the data at a time
-           var view = new google.visualization.DataView(data);
-           view.setColumns([0,1]);
-        var options = {
-        title: "market data",
-         hAxis: {title: data.getColumnLabel(0), minValue: data.getColumnRange(0).min, maxValue: data.getColumnRange(0).max},
-         vAxis: {title: data.getColumnLabel(1), minValue: data.getColumnRange(1).min, maxValue: data.getColumnRange(1).max},
-         legend: 'none'
-         };
-         var chart = new google.visualization.LineChart(document.getElementById('csv2chart'));
-         chart.draw(view, options);
-        });
+
+    $.get(csv_path, function(csvString) {
+      csvString = "time,volume\n"+csvString
+
+      // transform the CSV string into a 2-dimensional array
+      var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+      // this new DataTable object holds all the data
+      var data = new google.visualization.arrayToDataTable(arrayData);
+      // this view can select a subset of the data at a time
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0,1]);
+
+      var options = {
+      title: "volume",
+       hAxis: {title: data.getColumnLabel(0), minValue: data.getColumnRange(0).min, maxValue: data.getColumnRange(0).max},
+       vAxis: {title: data.getColumnLabel(1), minValue: data.getColumnRange(1).min, maxValue: data.getColumnRange(1).max},
+       legend: 'none'
+       };
+       var chart = new google.visualization.LineChart(document.getElementById('csv2chart'));
+       chart.draw(view, options);
+    });
   }
 
-#csv2chart{style: "width: 900px; height: 500px;"}
+#csv2chart{style: "width: 1200px; height: 900px;"}
